@@ -1,0 +1,20 @@
+.page-not-found-container {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 120px;
+    width: 100%;
+}
+
+.page-not-found-container h1{
+    font-size:2rem
+}
+
+.page-not-found-container h2 {
+    font-size: 1.5rem;
+}
+
+.page-not-found-container a {
+    margin:50px 0;
+}

@@ -1,0 +1,10 @@
+.ul {
+    list-style:none;
+    display:flex;
+    justify-content: center;
+}
+
+.ul .li {
+    margin: 0 20px;
+    font-size: 1.3rem;
+}
