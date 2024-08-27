@@ -1,23 +1,60 @@
 import React from 'react';
+import Product from "./Product";
 import './Products.css';
-import {Link} from "react-router-dom";
 
 const Products = () => {
   return (
-    <div>
-     <h1>
-      <ul>
-        <li>
-          <Link to="/Products/1">Product 1</Link>
-          </li>
-        <li>
-        <Link to="/products/2">Product 2</Link>
-        </li>
-        <li>
-          <Link to="/products/3">Product 3</Link>
-        </li>
-      </ul>
-     </h1>
+    <div className="products_container">
+      <div className="products_row">
+        <Products
+        id="1"
+        image="https://m.media-amazon.com/images/I/31Cx1cqSLgL._AC._SR360,460.jpg" 
+        title="Smte-1 Piece Hard Outer Shell Luggage 32"
+        rating={4}
+        price="R219.00"
+        />
+
+<Products
+        id="1"
+        image="https://m.media-amazon.com/images/I/31Cx1cqSLgL._AC._SR360,460.jpg" 
+        title="Smte-1 Piece Hard Outer Shell Luggage 32"
+        rating={4}
+        price="R219.00"
+        />
+
+<Products
+        id="1"
+        image="https://m.media-amazon.com/images/I/31Cx1cqSLgL._AC._SR360,460.jpg" 
+        title="Smte-1 Piece Hard Outer Shell Luggage 32"
+        rating={4}
+        price="R219.00"
+        />
+
+<Products
+        id="1"
+        image="https://m.media-amazon.com/images/I/31Cx1cqSLgL._AC._SR360,460.jpg" 
+        title="Smte-1 Piece Hard Outer Shell Luggage 32"
+        rating={4}
+        price="R219.00"
+        />
+
+<Products
+        id="1"
+        image="https://m.media-amazon.com/images/I/31Cx1cqSLgL._AC._SR360,460.jpg" 
+        title="Smte-1 Piece Hard Outer Shell Luggage 32"
+        rating={4}
+        price="R219.00"
+        />
+
+<Products
+        id="1"
+        image="https://m.media-amazon.com/images/I/31Cx1cqSLgL._AC._SR360,460.jpg" 
+        title="Smte-1 Piece Hard Outer Shell Luggage 32"
+        rating={4}
+        price="R219.00"
+        />
+        
+      </div>
     </div>
   )
 }

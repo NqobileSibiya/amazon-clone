@@ -1,0 +1,15 @@
+.product{
+    background-color: white;
+    border: 1px solod black;
+    z-index:100;
+}
+
+.product-rating{
+    display:flex;
+    justify-content: center;
+}
+
+.product_button{
+    background-color:yellow;
+    padding: 15px;
+}

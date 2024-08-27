@@ -1,10 +1,16 @@
-.ul {
-    list-style:none;
+.products_container{
     display:flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin:20px 0 0 0;
+    z-index: 1;
 }
 
-.ul .li {
-    margin: 0 20px;
-    font-size: 1.3rem;
+.products_row{
+    display:flex;
+    margin: 0 0 20px 0;
+}
+
+.products{
+    margin: 10px;
 }

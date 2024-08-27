@@ -1,7 +1,109 @@
-.nav-bar {
-    display: flex;
-    justify-content: space-between;
-    background-color: black;
-    padding: 9px;
+.header {
+    display:flex;
+    align-items: center;
+    background-color: rgb(10, 7, 7);
+    color: white;
 }
 
+.logo {
+    width:100px;
+    height: auto;
+    margin: 10px 10px;
+    border:1rem solid black;
+    padding: 10px;
+
+}
+
+.logo img:hover{
+    border:1rem solid white;
+}
+
+.delivery_option{
+    display:flex;
+
+}
+
+.Location_text {
+    display: flex;
+    flex-direction:column;
+    text-align:left;
+}
+
+.header_search_all{
+    border:none;
+    height: 48px;
+    padding: 8px;
+    width:60px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 5px;
+    color: grey;
+}
+
+.header_search{
+    display:flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding : 10px;
+}
+
+.search_icon{
+    padding: 9px;
+    height : 23px;
+    background-color: rgb(236, 184, 13);
+    color: black;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border:none;
+}
+
+.search_icon hover{
+    background-color: rgb(236, 184, 13);
+}
+
+.header_input{
+    height:14px;
+    padding: 16px;
+    width: 70%;
+
+}
+
+.header_option{
+    display:flex;
+    flex-direction: column;
+    padding: 10px;
+    text-align:left;
+    font-size:0.8rem;
+    border: 1px solid black;
+
+}
+
+.header_option:hover{
+    cursor: pointer;
+    border: 1px solid white;
+   
+}
+
+.header-optionOne{
+    display:flex;
+    flex-direction: column;
+    padding:10px;
+}
+
+.header-optionTwo{
+    font-size: 1rem;
+    font-weight:700;
+    margin-right: 20px;
+}
+
+.header_optionBasket{
+    display:flex;
+    align-items:center;
+    margin: 0 10px;
+    padding:0 5px;
+}
+
+.header_basketCount{
+    margin: 0 10px;
+}

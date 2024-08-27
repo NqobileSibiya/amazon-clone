@@ -5,7 +5,7 @@ import './App.css';
 import Home from "./components/Home";
 import Products from "./components/Products";
 import Header from "./components/Layout/Header";
-import ProductDetails from "./components/ProductDetails";
+import Product from "./components/Product";
 import NotFound from "./components/NotFound";
 
 const App = () => {
@@ -18,7 +18,7 @@ const App = () => {
             <Route path="/home" element={<Navigate to ="home" />} />
             <Route path="/home" element={<Home />} />
             <Route path="/products" element={<Products />} />
-            <Route path="/products/id" element={<ProductDetails />} />
+            <Route path="/products/id" element={<Product />} />
 
 {/* not existing route */}
             <Route path="/notfound" element={<NotFound />} />
