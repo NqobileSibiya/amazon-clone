@@ -1,5 +1,5 @@
 import React from 'react';
-import "./Products.css"
+import "./Product.css"
 
 const Product = ({ id, image, title, rating, price }) => {
   return (
@@ -11,7 +11,7 @@ const Product = ({ id, image, title, rating, price }) => {
           {Array(rating)
             .fill()
             .map((_, i) => (
-              <p key={i}>⭐</p>
+              <span key={i} role="img" aria-label="star">⭐</span>
             ))}
         </div>
         <p className="product_price">${price}</p>
