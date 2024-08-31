@@ -1,58 +1,53 @@
-import React, { useState, useEffect,useReducer } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Login.css";
+import {auth} from "../components/firebase";
+import ShoppingContext from "../context/shopping/shoppingContext";
+import { useNavigate } from 'react-router-dom';
 
-const reducer = (state, action) => {
 
-  if(action.type === "EMAIL_INPUT"){
-    return{...state, emailValue: action.payload}
-  }
+const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  if(action.type === "PASS_INPUT"){
-    return{...state, passwordValue: action.payload}
-  }
+  const shoppingContext = useContext(ShoppingContext);
+  const { user } = shoppingContext;
 
-  return {emailValue:"",passwordValue: ""}
-}
+  const navigate = useNavigate();
 
-const Login = ({onLogin}) => {
-  const [isFormValid, setIsFormValid] = useState(false);
-  const [state, dispatch] = useReducer(reducer,{
-    emailValue:"",
-    passwordValue:"",
-  })
 
   useEffect(() => {
-     const identifier = setTimeout(() =>{
-      console.log("Checking for form validity")
-      setIsFormValid(state.emailValue.includes("@") && state.passwordValue.trim().length > 7);
-     }, 1000)
-
-    return() =>{
-      console.log("cleanup is triggered")
-      clearTimeout(identifier)
+    if (user) {
+      navigate("/");
     }
-     
-  }, [state.emailValue, state.passwordValue]);
+  }, [user, navigate]);
 
-  const emailChangeHandler = (e) => {
-    dispatch({type:"EMAIL_INPUT",payload:e.target.value})
-    // setEmail(e.target.value);
-    // setIsFormValid(e.target.value.includes("@") && password.trim().length > 7);
-  };
 
-  const passwordChangeHandler = (e) => {
-    dispatch({type:"PASS_INPUT",payload:e.target.value})
-    // setPassword(e.target.value);
-    // setIsFormValid(email.includes("@") && e.target.value.trim().length > 7);
-  };
-
-  const LogIn = (e) => {
+  const signIn = (e) => {
     e.preventDefault();
-    console.log(isFormValid);
-    console.log("Email:", state.passwordValue);
-    console.log("Password:", state.passwordValue);
-    onLogin(state.emailValue, state.passwordValue)
+    auth.signInWithEmailAndPassword(email, password)
+    .then((auth) => {
+      if(auth){
+         navigate('/');
+      }
+    })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
+
+   const register = (e) => {
+      e.preventDefault();
+      auth.createUserWithEmailAndPassword(email, password)
+          .then((auth) => {
+            if(auth){
+               navigate('/');
+            }
+          })
+          .catch((error) => {
+            // Show error message if login fails
+            alert(error.message);
+    });
   };
 
   return (
@@ -66,16 +61,17 @@ const Login = ({onLogin}) => {
         <h1>Sign In</h1>
         <form>
           <label>Email</label>
-          <input type="text" placeholder="Email" value={state.emailValue} onChange={emailChangeHandler}/>
+          <input type="text" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)}/>
           <label>Password</label>
-          <input type="password" placeholder="Password" value={state.passwordvalue} onChange={passwordChangeHandler}/>
-          <button type="submit" className="login-button" onClick={LogIn}>
-            Sign In</button>
+          <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)}/>
+          <button type="submit" className="login-button" onClick={signIn}>
+            Sign in</button>
         </form>
         <p>By Continuing, you agree to Amazon's conditions of Use and Privacy Notice.</p>
-        <button className="signup-button">Create your Amazon Account</button>
+        <button className="signup-button" onClick={register}>Create your Amazon Account</button>
       </div>
     </div>
   );
 }
+
 export default Login;

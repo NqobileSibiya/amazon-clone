@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from 'react';
 import {
   BrowserRouter as Router, Routes, Route, Navigate
 } from 'react-router-dom';
@@ -9,52 +9,50 @@ import Header from "./components/Layout/Header";
 import Product from "./components/Product";
 import NotFound from "./components/NotFound";
 import Login from "./components/Login";
-import AuthContext from "./context/authContext";
+import { useContext, useEffect,} from "react";
+import ShoppingContext from "./context/shopping/shoppingContext";
+import { auth } from "./components/firebase";
+import CheckoutProduct from "./components/CheckoutProducts";
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const shoppingContext = useContext (ShoppingContext);
+  const  {setUser, setUserProperties} = shoppingContext;
+
 
   useEffect(() => {
+    auth.onAuthStateChanged((authUser) => {
+      console.log("user is =>", authUser)
 
-    const userInfo = localStorage.getItem("isLoggedIn");
-
-    if (userInfo === "1") {
-      setIsLoggedIn(true);
-    }
-  }, []);
-
-  const loginHandler = (email, password) => {
-    console.log("testing login")
-    localStorage.setItem("isLoggedIn", '1');
-    setIsLoggedIn(true);
-  };
-
-  const logoutHandler = () => {
-    localStorage.removeItem("isLoggedIn");
-    setIsLoggedIn(false);
-  };
+      if(authUser){
+        setUserProperties(authUser)
+      }else{
+        setUser(null)
+      }
+  })
+  }, [setUser, setUserProperties])
 
   return (
-    <AuthContext.Provider value={{isLoggedIn: isLoggedIn}}>
+    <>
     <div className="App">
       <Router>
-        <Header isAuthenticated={isLoggedIn} onLogout={logoutHandler}/>
+        <Header/>
         <main>
           <Routes>
             <Route path="/" element={<Navigate to="/home" />} />
             <Route path="/home" element={<Home />} />
 
-            <Route path="/login" element={<Login onLogin={loginHandler} />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/products" element={<Products />} />
             <Route path="/products/:id" element={<Product />} />
 
-            {/* Catch-all route for undefined paths */}
+            <Route path="/checkout-product" element={<CheckoutProduct />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
       </Router>
     </div>
-    </AuthContext.Provider>
+    </>
   );
 }
 

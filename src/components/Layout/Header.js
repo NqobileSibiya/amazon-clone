@@ -1,17 +1,28 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import "./Header.css";
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
-import {Link} from "react-router-dom";
-import AuthContext from "../../context/authContext";
+import { Link } from "react-router-dom";
+import ShoppingContext from "../../context/shopping/shoppingContext";
+import {auth} from "../firebase";
 
+const Header = () => {
+ 
+  const shoppingContext =useContext (ShoppingContext)
+  const {basket = [], user, setUser} =shoppingContext
 
-const Header = ({isAuthenticated, onLogout}) => {
+  const handleAuthentication = () => {
+    if(user){
+      auth.signOut().then(() =>{
+        setUser(null);
+      })
+    }
+  }
+ 
+  
   return (
-    <AuthContext.Consumer>
-      {(ctx)=>{
-        return ( <header className="header">
+     <header className="header">
           <Link to="/">
           <img
             className="logo"
@@ -45,37 +56,27 @@ const Header = ({isAuthenticated, onLogout}) => {
             />
           </div>
     
-          {ctx.isLoggedIn ? (
-             <Link to="/" className="header_optionLink" onClick={onLogout}>
+           <Link to={!user && "/login"}className="header_optionLink">
              <div className="header_option">
-               <span>Hello, User</span>
-               <span>Sign Out</span>
+               <span>Hello, {!user ? "Guest" : user.email} </span>
+               <span>{user? "sign out": "sign in"} </span>
              </div>
            </Link>
-         ) : (
-           <Link to="/login" className="header_optionLink">
-             <div className="header_option">
-               <span>Hello, Guest</span>
-               <span>Sign In</span>
-             </div>
-           </Link>
-         )}
     
-          <div className="header_option">
+          <div className="header_option" onClick = {handleAuthentication}>
             <span className="header-optionOne "> Returns</span>
             <span className="header-optionTwo ">& Orders</span>
             {/* Additional content can be added here */}
           </div>
     
-            <div className="header_optionBasket">
-              <ShoppingBasketIcon className="basket_icon" />
-              <span className="header-basketcount">0</span>
-            </div>
-        </header>)
-      }}
-   
-    </AuthContext.Consumer>
+          <div className="header_optionBasket">
+        <ShoppingBasketIcon className="basket_icon" />
+        <span className="header-basketcount">{basket.length}</span>
+      </div>
+    </header>
   );
 };
 
 export default Header;
+
+
