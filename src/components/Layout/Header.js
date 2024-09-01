@@ -68,11 +68,13 @@ const Header = () => {
             <span className="header-optionTwo ">& Orders</span>
             {/* Additional content can be added here */}
           </div>
-    
-          <div className="header_optionBasket">
-        <ShoppingBasketIcon className="basket_icon" />
-        <span className="header-basketcount">{basket.length}</span>
-      </div>
+
+          <Link to ="/checkout" className="option_basketLink">
+            <div className="header_optionBasket">
+            <ShoppingBasketIcon className="basket_icon" />
+            <span className="header-basketcount">{basket.length}</span>
+            </div>
+          </Link>
     </header>
   );
 };

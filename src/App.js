@@ -13,6 +13,8 @@ import { useContext, useEffect,} from "react";
 import ShoppingContext from "./context/shopping/shoppingContext";
 import { auth } from "./components/firebase";
 import CheckoutProduct from "./components/CheckoutProducts";
+import Checkout from "./components/Checkout";
+import Payment from "./components/Payment";
 
 const App = () => {
 
@@ -47,6 +49,9 @@ const App = () => {
             <Route path="/products/:id" element={<Product />} />
 
             <Route path="/checkout-product" element={<CheckoutProduct />} />
+            <Route path="/checkout" element={<Checkout />} />
+
+            <Route path="/payment" element={<Payment />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
