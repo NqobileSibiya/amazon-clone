@@ -15,6 +15,17 @@ import { auth } from "./components/firebase";
 import CheckoutProduct from "./components/CheckoutProducts";
 import Checkout from "./components/Checkout";
 import Payment from "./components/Payment";
+import { loadstripe } from './@stripe/stripe.js'
+import { Elements } from "@stripe/react-stripe-js";
+
+const stripePromise = loadstripe("pk_live_51PemKwLbXXNN8PEtVDdNc7te8OP6EVa1u7INYNS1zezuWPmSuPGT97QIlXHwu2CPYTbDXhuRxUtNiBlnicFhiiNa00OOYrSe2C" )
+
+const PaymentWrapper = () => {
+
+<Elements stripe ={stripePromise}>
+  <Payment/>
+</Elements>
+};
 
 const App = () => {
 
@@ -51,7 +62,7 @@ const App = () => {
             <Route path="/checkout-product" element={<CheckoutProduct />} />
             <Route path="/checkout" element={<Checkout />} />
 
-            <Route path="/payment" element={<Payment />} />
+            <Route path="/payment" element={<PaymentWrapper />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
