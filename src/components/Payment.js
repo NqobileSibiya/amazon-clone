@@ -1,16 +1,19 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState, useEffect} from 'react'
 import "./Payment.css";
 import ShoppingContext from "../context/shopping/shoppingContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CheckoutProducts from "./CheckoutProducts";
-import { useElements, useStripe } from '@stripe/react-stripe-js';
-import axios from "./axios";
+import {  CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
+import axios from "axios";
+import CurrencyFormat from 'react-currency-format';
+import { doc } from 'firebase/firestore';
+
 
 
 const Payment = () => {
 
     const shoppingContext = useContext (ShoppingContext);
-    const {basket, user, getBasketTotal} = shoppingContext;
+    const {basket, user, getBasketTotal, emptyBasket} = shoppingContext;
 
     const stripe = useStripe ();
     const elements = useElements ();
@@ -18,8 +21,10 @@ const Payment = () => {
     const [succeeded, setSucceeded] = useState(false);
     const [processing, setProcessing] = useState("");
     const [error, setError] =useState(null);
-    const [disabled, setDisable] = useState(true);
+    const [disabled, setDisabled] = useState(true);
     const [clientSecret, setClientSecret] = useState(true);
+
+    const navigate = useNavigate();
 
     useEffect (() =>{
         const getClientSecret = async () => {
@@ -32,6 +37,37 @@ const Payment = () => {
         }
         getClientSecret();
     }, [basket])
+
+    console.log("Client Secret Key =>", clientSecret);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const payload = await stripe.confirmPayment(clientSecret, {
+            payment_methos: {card : elements.getElement(CardElement) },
+        })
+        .then(({paymentIntent}) => {
+            // console.log ("Payment Intent :", paymentIntent)
+            // db.collection("user")
+            // doc (user?.uid)
+            // .collection("orders")
+            // doc(paymentIntent.id)
+            // set({
+            //     basket : basket, 
+            //     amount : paymentIntent.amount,
+            //     created: paymentIntent.created,
+            // });
+            setSucceeded(true);
+            setError(null);
+            setProcessing(false);
+            navigate("/orders");
+        })
+    }
+
+    const handleOnChange = (e) => {
+        setDisabled(e.empty);
+        setError(e.error? "e.error.message": "")
+    }
 
   return (
     <div className= "payment">

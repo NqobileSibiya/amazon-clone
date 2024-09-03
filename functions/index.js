@@ -17,6 +17,7 @@ const app = express();
     amount: total,
     currency: "usd",
     })
+    res.status(201).send({clientSecret: paymentIntent.clientSecret});
   })
   exports.api = functions.https.onRequest(app);
 
