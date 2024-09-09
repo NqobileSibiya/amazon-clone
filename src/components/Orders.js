@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
-import { db } from "../firebase";
 import ShoppingContext from "../context/shopping/shoppingContext";
+import { db } from "./firebase";
 import "./Orders.css";
 
 const Orders = () => {

@@ -22,9 +22,11 @@ const SubTotal = () => {
             <input type= "checkbox" />
             This order contains a gift
         </small>
+
+
         <button onClick={handleCheckout}>Proceed to checkout</button>
     </div>
   );
 }
 
-export default SubTotal
+export default SubTotal;

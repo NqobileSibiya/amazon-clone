@@ -22,11 +22,11 @@
     align-items: center;
 }
 
-.payment _title {
+.payment_title {
     width: 20%;
 }
 
-.payment_address, .payment_items, payment_details{
+.payment_address, .payment_items, .payment_details{
     flex: 0.8;
 }
 

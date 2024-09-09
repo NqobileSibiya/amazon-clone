@@ -9,9 +9,10 @@ const Home = () => {
         <div className="home_container">
           <img 
           className="home_image" 
-          src="https://m.media-amazon.com/images/I/61VaF6EP7vL._SX1500_.jpg" alt="Sports Gear" />
+          src="https://m.media-amazon.com/images/I/61lJ3xlQX2L._SX3000_.jpg" alt="hero"
+          />
+            <Products />
         </div>
-        <Products />
       </div>
     </div>
   )

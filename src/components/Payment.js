@@ -6,9 +6,7 @@ import CheckoutProducts from "./CheckoutProducts";
 import {  CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import axios from "axios";
 import CurrencyFormat from 'react-currency-format';
-import { doc } from 'firebase/firestore';
-
-
+import { db } from './firebase';
 
 const Payment = () => {
 
@@ -17,6 +15,7 @@ const Payment = () => {
 
     const stripe = useStripe ();
     const elements = useElements ();
+    const navigate = useNavigate();
 
     const [succeeded, setSucceeded] = useState(false);
     const [processing, setProcessing] = useState("");
@@ -24,39 +23,39 @@ const Payment = () => {
     const [disabled, setDisabled] = useState(true);
     const [clientSecret, setClientSecret] = useState(true);
 
-    const navigate = useNavigate();
-
-    useEffect (() =>{
+    useEffect ((getBasketTotal) =>{
         const getClientSecret = async () => {
             const response = await axios ({
                 method: "POST",
-                url: `/payments/create?total=${getBasketTotal(basket) * 100}`
+                url: `/payments/create?total=${getBasketTotal(basket) * 100}`,
             });
             
             setClientSecret(response.data.clientSecret)
         }
         getClientSecret();
-    }, [basket])
+    }, [basket]);
 
     console.log("Client Secret Key =>", clientSecret);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setProcessing(true);
 
         const payload = await stripe.confirmPayment(clientSecret, {
-            payment_methos: {card : elements.getElement(CardElement) },
+            payment_method: {card : elements.getElement(CardElement) },
         })
-        .then(({paymentIntent}) => {
-            // console.log ("Payment Intent :", paymentIntent)
-            // db.collection("user")
-            // doc (user?.uid)
-            // .collection("orders")
-            // doc(paymentIntent.id)
-            // set({
-            //     basket : basket, 
-            //     amount : paymentIntent.amount,
-            //     created: paymentIntent.created,
-            // });
+        .then(({ paymentIntent }) => {
+            // Reference to the user's document
+            const userDocRef = db.collection("users").doc(user?.uid);
+            // Reference to the specific order
+            const orderDocRef = userDocRef.collection("orders").doc(paymentIntent.id);
+
+            // Set the order data using the 'set' method on the document reference
+            orderDocRef.set({
+                basket: basket, 
+                amount: paymentIntent.amount,
+                created: paymentIntent.created,
+            });
             setSucceeded(true);
             setError(null);
             setProcessing(false);

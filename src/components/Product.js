@@ -8,8 +8,8 @@ const shoppingContext = useContext (ShoppingContext)
 const  {addToBasket} = shoppingContext;
 
 const addToBasketHandler = () => {
-  addToBasket ({items: {id, image, title, rating, price} })
-}
+  addToBasket ({items: {id, image, title, rating, price} });
+};
 
   return (
     <div className="product" key={id}>

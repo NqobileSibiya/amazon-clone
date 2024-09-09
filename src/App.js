@@ -18,7 +18,7 @@ import Payment from "./components/Payment";
 
 
 
-const stripePromise = loadStripe("pk_live_51PemKwLbXXNN8PEtVDdNc7te8OP6EVa1u7INYNS1zezuWPmSuPGT97QIlXHwu2CPYTbDXhuRxUtNiBlnicFhiiNa00OOYrSe2C" )
+const stripePromise = loadStripe("pk_live_51PemKwLbXXNN8PEtVDdNc7te8OP6EVa1u7INYNS1zezuWPmSuPGT97QIlXHwu2CPYTbDXhuRxUtNiBlnicFhiiNa00OOYrSe2C" );
 
 const PaymentWrapper = () => {
   return (
@@ -28,24 +28,30 @@ const PaymentWrapper = () => {
   );
 };
 
-
 const App = () => {
 
   const shoppingContext = useContext (ShoppingContext);
-  const  {setUser, setUserProperties} = shoppingContext;
+  const  { setUser } = shoppingContext;
 
 
   useEffect(() => {
-    auth.onAuthStateChanged((authUser) => {
-      console.log("user is =>", authUser)
-
-      if(authUser){
-        setUserProperties(authUser)
-      }else{
-        setUser(null)
+    // Set up an observer on the Auth object to detect the user's authentication state
+    const unsubscribe = auth.onAuthStateChanged((authUser) => {
+      console.log("User is =>", authUser);
+  
+      if (authUser) {
+        // If a user is authenticated, update the state with the user object
+        setUser(authUser);
+      } else {
+        // If no user is authenticated, set the user state to null
+        setUser(null);
       }
-  })
-  }, [setUser, setUserProperties])
+    });
+  
+    // Cleanup function to unsubscribe from the auth state listener
+    return () => unsubscribe();
+  }, [setUser]);
+  
 
   return (
     <>
